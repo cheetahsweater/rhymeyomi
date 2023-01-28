@@ -24,21 +24,22 @@ def kensakustart():     #Displays search onscreen and adds results field
 
 def kensaku(search):        #Searches for rhymes in dictionary
     searchlist = search[::1]
-    for x in searchlist:
-        if x in arhyme:
-            x = 0
+    rhymelist = []
+    for x in range(len(searchlist)):
+        if searchlist[x] in arhyme:
+            rhymelist.append(0)
         else:
-            if x in irhyme:
-                x = 1
+            if searchlist[x] in irhyme:
+                rhymelist.append(1)
             else:
-                if x in urhyme:
-                    x = 2
+                if searchlist[x] in urhyme:
+                    rhymelist.append(2)
                 else:
-                    if x in erhyme:
-                        x = 3
+                    if searchlist[x] in erhyme:
+                        rhymelist.append(3)
                     else:
-                        if x in orhyme:
-                            x = 4
+                        if searchlist[x] in orhyme:
+                            rhymelist.append(4)
 
 
 
