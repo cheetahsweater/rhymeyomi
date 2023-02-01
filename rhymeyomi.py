@@ -17,10 +17,12 @@ wb = xlrd.open_workbook(sheet, encoding_override='utf-8')
 df = pd.read_excel(sheet, sheet_name="list", usecols="Q", dtype = object)
 wordlist = df.values.tolist()
 
+
 window = tk.Tk()
 window.title("ライム読み ALPHA")
 font = tkfont.Font(file="font\digi.ttf", family="UD Digi Kyokasho N-R")
-
+results = ()
+wordnums = []
 
 def err1():     #Error that displays if user enters invalid characters
     error1 = tk.Toplevel(window)
@@ -29,17 +31,71 @@ def err1():     #Error that displays if user enters invalid characters
     hermes1 = tk.Label(error1, text = "エラーが発生した！\n検索に一つ以上の文字は無効だ！", font=font)
     hermes1.pack()
 
-
 def kensakustart():     #Displays search onscreen and adds results field
     origsearch = kanahara.get()
     searchtoiu = tk.Label(font=font,text=f"検索は：{origsearch}")
     searchtoiu.grid(row=3, column=2, sticky="ew", padx=1, pady=1)
-    kekkahara = tk.Text()
-    kekkahara.grid(row=4, column=2, sticky="ew", padx=1, pady=1)
     search = jv.hira2kata(origsearch)
-    henkan(search)
+    winlist = henkan(search)
+    kekkahara = tk.Label(text=f"{winlist}")
+    kekkahara.grid(row=4, column=2, sticky="ew", padx=1, pady=1)
+    
 
-def henkan(search):        #Converts query to numbers
+def jisho(word: str):        #Converts query to numbers
+    searchlist = word[::1]
+    rhymelist = []
+    for x in searchlist:
+        rhymelist.append(0)
+        if x in arhyme: 
+            rhymelist.pop()
+            rhymelist.append(1)
+        if x in irhyme:
+            rhymelist.pop()
+            rhymelist.append(2)
+        if x in urhyme:
+            rhymelist.pop()
+            rhymelist.append(3)
+        if x in erhyme:
+            rhymelist.pop()
+            rhymelist.append(4)
+        if x in orhyme:
+            rhymelist.pop()
+            rhymelist.append(5)
+        if x in n:
+            rhymelist.pop()
+            rhymelist.append(6)
+        if x == "ャ" or x == "ァ":
+            rhymelist.pop()
+            rhymelist.pop()
+            rhymelist.append(1)
+        if x == "ィ":
+            rhymelist.pop()
+            rhymelist.pop()
+            rhymelist.append(2)
+        if x == "ュ" or x == "ゥ" or x == "ㇷ゚" or x == "ㇷ":
+            rhymelist.pop()
+            rhymelist.pop()
+            rhymelist.append(3)
+        if x == "ェ":
+            rhymelist.pop()
+            rhymelist.pop()
+            rhymelist.append(4)
+        if x == "ョ" or x == "ォ":
+            rhymelist.pop()
+            rhymelist.pop()
+            rhymelist.append(5)
+        if x == "ー":
+            rhymelist.pop()
+            rhymelist += rhymelist[-1:]
+        if x == "ッ":
+            rhymelist.pop()
+        if  0 in rhymelist:
+            err1()
+            return
+    print(rhymelist)
+    return(rhymelist)
+
+def henkan(search: str):        #Converts search query to numbers
     searchlist = search[::1]
     rhymelist = []
     for x in searchlist:
@@ -91,8 +147,28 @@ def henkan(search):        #Converts query to numbers
             err1()
             return
     print(rhymelist)
+    for z in range(len(wordnums)):
+        winlist = ("")
+        compare = wordnums[z]
+        if len(rhymelist) <= len(compare):
+            #print(f"{len(rhymelist)} {len(compare)}")
+            #print(f"{0-(len(rhymelist)-1)}:")
+            #print(0-(len(rhymelist)))
+            #print(compare)
+            #print(compare[0-(len(rhymelist)):])
+            if rhymelist == compare[0-(len(rhymelist)):]:
+             winlist += f"{wordlist[z]}\n"
+    return winlist
 
 
+
+
+for y in wordlist:
+    for x in y:
+        print(x)
+        rhymelist = jisho(x)
+        wordnums.append(rhymelist)
+        
 
 window.geometry("800x600")
 writekana = tk.Label(font=font,text="カナ文字で言葉を書いてください！")
