@@ -6,11 +6,16 @@ import xlrd
 from pathlib import Path
 
 arhyme = ["ア", "カ", "ガ", "カ゚", "ラ゚", "サ", "ザ", "ハ", "バ", "パ", "ラ", "ラ゚", "ワ", "マ", "ナ", "タ", "ダ", "ヤ", "チャ", "ファ", "ヴァ"]
-irhyme = ["イ", "キ", "ギ", "キ゚",, "シ", "ジ", "チ", "ヂ", "ニ", "ヒ", "ビ", "ピ", "ミ", "リ", "リ゚", "ヰ", "ヸ" "フィ", "ディ", "ウィ", "ティ", "ヴぃ"]
+irhyme = ["イ", "キ", "ギ", "キ゚", "シ", "ジ", "チ", "ヂ", "ニ", "ヒ", "ビ", "ピ", "ミ", "リ", "ヰ", "ヸ", "フィ", "ディ", "ウィ", "ティ", "ヴぃ"]
 urhyme = ["ウ", "ク", "グ", "ク゚","ス", "ズ", "ツ", "ヅ", "ツ゚", "ヌ", "フ", "ブ", "プ", "ム", "ル", "ユ", "キュ", "チュ", "ヴ", "シュ", "リュ"]
 erhyme = ["エ", "ケ", "ゲ","セ", "ゼ", "テ", "デ", "ネ", "ヘ", "ベ", "ペ", "メ", "レ", "イェ", "フェ", "シェ", "チェ", "シュ", "ヱ", "ヹ", "ウェ", "ヴェ"]
 orhyme = ["オ", "コ", "ゴ","ソ", "ゾ", "ト", "ド", "ノ", "ホ", "ボ", "ポ", "モ", "ロ", "ヨ", "ヲ", "ヺ", "ショ", "チョ", "フォ", "ヴォ"]
 n = ["ン"]
+
+sheet = Path(__file__).parent / "jawl.xls"
+wb = xlrd.open_workbook(sheet, encoding_override='utf-8')
+df = pd.read_excel(sheet, sheet_name="list", usecols="Q", dtype = object)
+wordlist = df.values.tolist()
 
 window = tk.Tk()
 window.title("ライム読み ALPHA")
@@ -37,60 +42,58 @@ def kensakustart():     #Displays search onscreen and adds results field
 def henkan(search):        #Converts query to numbers
     searchlist = search[::1]
     rhymelist = []
-    for x in range(len(searchlist)):
-        if searchlist[x] in arhyme: 
-            rhymelist.append(0)
-        else:
-            if searchlist[x] in irhyme:
-                rhymelist.append(1)
-            else:
-                if searchlist[x] in urhyme:
-                    rhymelist.append(2)
-                else:
-                    if searchlist[x] in erhyme:
-                        rhymelist.append(3)
-                    else:
-                        if searchlist[x] in orhyme:
-                            rhymelist.append(4)
-                        else:
-                            if searchlist[x] in n:
-                                rhymelist.append(5)
-                            else:
-                                if searchlist[x] == "ャ" or searchlist[x] == "ァ":
-                                    rhymelist.pop()
-                                    rhymelist.append(0)
-                                else:
-                                    if searchlist[x] == "ィ":
-                                        rhymelist.pop()
-                                        rhymelist.append(1)
-                                    else:
-                                        if searchlist[x] == "ュ" or searchlist[x] == "ゥ" or searchlist[x] == "ㇷ゚" or searchlist[x] == "ㇷ":
-                                            rhymelist.pop()
-                                            rhymelist.append(2)
-                                        else:
-                                            if searchlist[x] == "ェ":
-                                                rhymelist.pop()
-                                                rhymelist.append(3)
-                                            else:
-                                                if searchlist[x] == "ョ" or searchlist[x] == "ォ":
-                                                    rhymelist.pop()
-                                                    rhymelist.append(4)
-                                                else:
-                                                    if searchlist[x] == "ー":
-                                                        rhymelist += rhymelist[-1:]
-                                                    else:
-                                                        if searchlist[x] == "ッ":
-                                                            rhymelist.append(6)
-                                                        else:
-                                                            err1()
-                                                            return
+    for x in searchlist:
+        rhymelist.append(0)
+        if x in arhyme: 
+            rhymelist.pop()
+            rhymelist.append(1)
+        if x in irhyme:
+            rhymelist.pop()
+            rhymelist.append(2)
+        if x in urhyme:
+            rhymelist.pop()
+            rhymelist.append(3)
+        if x in erhyme:
+            rhymelist.pop()
+            rhymelist.append(4)
+        if x in orhyme:
+            rhymelist.pop()
+            rhymelist.append(5)
+        if x in n:
+            rhymelist.pop()
+            rhymelist.append(6)
+        if x == "ャ" or x == "ァ":
+            rhymelist.pop()
+            rhymelist.pop()
+            rhymelist.append(1)
+        if x == "ィ":
+            rhymelist.pop()
+            rhymelist.pop()
+            rhymelist.append(2)
+        if x == "ュ" or x == "ゥ" or x == "ㇷ゚" or x == "ㇷ":
+            rhymelist.pop()
+            rhymelist.pop()
+            rhymelist.append(3)
+        if x == "ェ":
+            rhymelist.pop()
+            rhymelist.pop()
+            rhymelist.append(4)
+        if x == "ョ" or x == "ォ":
+            rhymelist.pop()
+            rhymelist.pop()
+            rhymelist.append(5)
+        if x == "ー":
+            rhymelist.pop()
+            rhymelist += rhymelist[-1:]
+        if x == "ッ":
+            rhymelist.pop()
+        if  0 in rhymelist:
+            err1()
+            return
     print(rhymelist)
 
 
-sheet = Path(__file__).parent / "jawl.xls"
-wb = xlrd.open_workbook(sheet, encoding_override='utf-8')
-df = pd.read_excel(sheet, sheet_name="list", usecols="Q", dtype = object)
-wordlist = df.values.tolist()
+
 window.geometry("800x600")
 writekana = tk.Label(font=font,text="カナ文字で言葉を書いてください！")
 kanahara = tk.Entry(window)
