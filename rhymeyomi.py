@@ -156,7 +156,6 @@ def jisho(word: str):        #Converts query to numbers
                     rhymelist.append("55")
             if x == "ッ":
                 rhymelist.pop()
-    print(rhymelist)
     return(rhymelist)
 
 def henkan(search: str):        #Converts search query to numbers
@@ -282,7 +281,8 @@ def henkan(search: str):        #Converts search query to numbers
         compare = wordnums[z]
         if len(rhymelist) <= len(compare):
             if rhymelist == compare[0-(len(rhymelist)):]:
-                print(wordlist[z])
+                goodword = wordlist[z]
+                print(goodword[0])
     return winlist
 
 
@@ -290,7 +290,6 @@ def henkan(search: str):        #Converts search query to numbers
 
 for y in wordlist:
     for x in y:
-        print(x)
         rhymelist = jisho(x)
         wordnums.append(rhymelist)
         
