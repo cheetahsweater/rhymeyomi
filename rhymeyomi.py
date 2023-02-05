@@ -12,7 +12,7 @@ erhyme = ["エ", "ケ", "ゲ","セ", "ゼ", "テ", "デ", "ネ", "ヘ", "ベ", "
 orhyme = ["オ", "コ", "ゴ","ソ", "ゾ", "ト", "ド", "ノ", "ホ", "ボ", "ポ", "モ", "ロ", "ヨ", "ヲ", "ヺ", "ショ", "チョ", "フォ", "ヴォ"]
 n = ["ン"]
 
-sheet = Path(__file__).parent / "vdrj.xls"
+sheet = Path(__file__).parent / "assets" / "vdrj.xls"
 wb = xlrd.open_workbook(sheet, encoding_override='utf-8')
 df = pd.read_excel(sheet, sheet_name="list", usecols="A", dtype = object)
 wordlist = df.values.tolist()
