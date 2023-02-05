@@ -41,7 +41,7 @@ def kensakustart():     #Displays search onscreen and adds results field
     kekkahara.grid(row=4, column=2, sticky="ew", padx=1, pady=1)
     
 
-def jisho(word: str):        #Converts query to numbers
+def jisho(word: str):        #Converts dictionary words to numbers
     searchlist = word[::1]
     rhymelist = []
     for x in searchlist:
