@@ -12,11 +12,10 @@ erhyme = ["エ", "ケ", "ゲ","セ", "ゼ", "テ", "デ", "ネ", "ヘ", "ベ", "
 orhyme = ["オ", "コ", "ゴ","ソ", "ゾ", "ト", "ド", "ノ", "ホ", "ボ", "ポ", "モ", "ロ", "ヨ", "ヲ", "ヺ", "ショ", "チョ", "フォ", "ヴォ"]
 n = ["ン"]
 
-sheet = Path(__file__).parent / "jawl.xls"
+sheet = Path(__file__).parent / "vdrj.xls"
 wb = xlrd.open_workbook(sheet, encoding_override='utf-8')
-df = pd.read_excel(sheet, sheet_name="list", usecols="Q", dtype = object)
+df = pd.read_excel(sheet, sheet_name="list", usecols="A", dtype = object)
 wordlist = df.values.tolist()
-
 
 window = tk.Tk()
 window.title("ライム読み ALPHA")
@@ -63,6 +62,9 @@ def jisho(word: str):        #Converts query to numbers
             elif rhymelist[-1] == 1:
                 rhymelist.pop()
                 rhymelist.append("12")
+            elif rhymelist[-1] == 2:
+                rhymelist.pop()
+                rhymelist.append("22")
             elif rhymelist[-1] == 4:
                 rhymelist.pop()
                 rhymelist.append("42")
@@ -155,7 +157,7 @@ def jisho(word: str):        #Converts query to numbers
                     rhymelist.pop()
                     rhymelist.append("55")
             if x == "ッ":
-                rhymelist.pop()
+                pass
     return(rhymelist)
 
 def henkan(search: str):        #Converts search query to numbers
@@ -179,6 +181,9 @@ def henkan(search: str):        #Converts search query to numbers
             elif rhymelist[-1] == 1:
                 rhymelist.pop()
                 rhymelist.append("12")
+            elif rhymelist[-1] == 2:
+                rhymelist.pop()
+                rhymelist.append("22")
             elif rhymelist[-1] == 4:
                 rhymelist.pop()
                 rhymelist.append("42")
