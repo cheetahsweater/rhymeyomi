@@ -39,9 +39,9 @@ def kensakustart():     #Displays search onscreen and adds results field
     print(winlist)
     kekkahara = tk.Label(text=f"{winlist}")
     kekkahara.grid(row=4, column=2, sticky="ew", padx=1, pady=1)
-    
 
-def jisho(word: str):        #Converts dictionary words to numbers
+    
+def rhymeprocess(word: str):    #Converts given string to numbers for comparison
     searchlist = word[::1]
     rhymelist = []
     for x in searchlist:
@@ -160,123 +160,8 @@ def jisho(word: str):        #Converts dictionary words to numbers
                 pass
     return(rhymelist)
 
-def henkan(search: str):        #Converts search query to numbers
-    searchlist = search[::1]
-    rhymelist = []
-    for x in searchlist:
-        if x == "ア":
-            if len(rhymelist) == 0:
-                rhymelist.append(1)
-            elif rhymelist[-1] == 1:
-                rhymelist.pop()
-                rhymelist.append("11")
-            elif rhymelist[-1] == 4:
-                rhymelist.pop()
-                rhymelist.append("41")
-            else:
-                rhymelist.append(1)
-        elif x == "イ":
-            if len(rhymelist) == 0:
-                rhymelist.append(2)
-            elif rhymelist[-1] == 1:
-                rhymelist.pop()
-                rhymelist.append("12")
-            elif rhymelist[-1] == 2:
-                rhymelist.pop()
-                rhymelist.append("22")
-            elif rhymelist[-1] == 4:
-                rhymelist.pop()
-                rhymelist.append("42")
-            elif rhymelist[-1] == 5:
-                rhymelist.pop()
-                rhymelist.append("52")
-            else:
-                rhymelist.append(2)
-        elif x == "ウ":
-            if len(rhymelist) == 0:
-                rhymelist.append(3)
-            elif rhymelist[-1] == 1:
-                rhymelist.pop()
-                rhymelist.append("13")
-            elif rhymelist[-1] == 2:
-                rhymelist.pop()
-                rhymelist.append("23")
-            elif rhymelist[-1] == 3:
-                rhymelist.pop()
-                rhymelist.append("33")
-            elif rhymelist[-1] == 5:
-                rhymelist.pop()
-                rhymelist.append("55")
-            else:
-                rhymelist.append(3)
-        elif x == "エ":
-            if len(rhymelist) == 0:
-                rhymelist.append(4)
-            elif rhymelist[-1] == 1:
-                rhymelist.pop()
-                rhymelist.append("14")
-            elif rhymelist[-1] == 4:
-                rhymelist.pop()
-                rhymelist.append("44")
-            else:
-                rhymelist.append(4)
-        elif x == "オ":
-            if len(rhymelist) == 0:
-                rhymelist.append(5)
-            elif rhymelist[-1] == 1:
-                rhymelist.pop()
-                rhymelist.append("15")
-            elif rhymelist[-1] == 5:
-                rhymelist.pop()
-                rhymelist.append("55")
-            else:
-                rhymelist.append(5)
-        else:
-            if x in arhyme: 
-                rhymelist.append(1)
-            if x in irhyme:
-                rhymelist.append(2)
-            if x in urhyme:
-                rhymelist.append(3)
-            if x in erhyme:
-                rhymelist.append(4)
-            if x in orhyme:
-                rhymelist.append(5)
-            if x in n:
-                rhymelist.append(6)
-            if x == "ャ" or x == "ァ":
-                rhymelist.pop()
-                rhymelist.append(1)
-            if x == "ィ":
-                rhymelist.pop()
-                rhymelist.append(2)
-            if x == "ュ" or x == "ゥ" or x == "ㇷ゚" or x == "ㇷ":
-                rhymelist.pop()
-                rhymelist.append(3)
-            if x == "ェ":
-                rhymelist.pop()
-                rhymelist.append(4)
-            if x == "ョ" or x == "ォ":
-                rhymelist.pop()
-                rhymelist.append(5)
-            if x == "ー":
-                if rhymelist[-1] == 1:
-                    rhymelist.pop()
-                    rhymelist.append("11")
-                if rhymelist[-1] == 2:
-                    rhymelist.pop()
-                    rhymelist.append("22")
-                if rhymelist[-1] == 3:
-                    rhymelist.pop()
-                    rhymelist.append("33")
-                if rhymelist[-1] == 4:
-                    rhymelist.pop()
-                    rhymelist.append("44")
-                if rhymelist[-1] == 5:
-                    rhymelist.pop()
-                    rhymelist.append("55")
-            if x == "ッ":
-                rhymelist.pop()
+def henkan(word: str):        #Compares search to dictionary
+    rhymelist = rhymeprocess(word)
     if  0 in rhymelist:
         err1()
         return
@@ -295,8 +180,8 @@ def henkan(search: str):        #Converts search query to numbers
 
 for y in wordlist:
     for x in y:
-        rhymelist = jisho(x)
-        wordnums.append(rhymelist)
+        dictionary = rhymeprocess(x)
+        wordnums.append(dictionary)
         
 
 window.geometry("800x600")
