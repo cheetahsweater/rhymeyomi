@@ -14,14 +14,15 @@ n = ["ン"]
 
 sheet = Path(__file__).parent / "assets" / "vdrj.xls"
 wb = xlrd.open_workbook(sheet, encoding_override='utf-8')
-df = pd.read_excel(sheet, sheet_name="list", usecols="A", dtype = object)
+df = pd.read_excel(sheet, sheet_name="list", usecols="C", dtype = object)
+df2 = pd.read_excel(sheet, sheet_name="list", usecols="A", dtype = object)
 wordlist = df.values.tolist()
+kanlist = df2.values.tolist()
 
 window = tk.Tk()
 window.title("ライム読み ALPHA")
 font = tkfont.Font(file="font\digi.ttf", family="UD Digi Kyokasho N-R")
 results = ()
-wordnums = []
 
 def err1():     #Error that displays if user enters invalid characters
     error1 = tk.Toplevel(window)
@@ -171,17 +172,24 @@ def henkan(word: str):        #Compares search to dictionary
         compare = wordnums[z]
         if len(rhymelist) <= len(compare):
             if rhymelist == compare[0-(len(rhymelist)):]:
-                goodword = wordlist[z]
+                goodword = kanlist[z]
+                goodfuri = wordlist[z]
+                print(goodfuri[0])
                 print(goodword[0])
     return winlist
 
 
 
-
+wordnums = []
+wordwords = []
 for y in wordlist:
     for x in y:
         dictionary = rhymeprocess(x)
         wordnums.append(dictionary)
+
+for y in kanlist:
+    for x in y:
+        wordwords.append(x)
         
 
 window.geometry("800x600")
