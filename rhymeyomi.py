@@ -12,8 +12,10 @@ erhyme = ["エ", "ケ", "ゲ","セ", "ゼ", "テ", "デ", "ネ", "ヘ", "ベ", "
 orhyme = ["オ", "コ", "ゴ","ソ", "ゾ", "ト", "ド", "ノ", "ホ", "ボ", "ポ", "モ", "ロ", "ヨ", "ヲ", "ヺ", "ショ", "チョ", "フォ", "ヴォ"]
 n = ["ン"]
 
+print("Opening dictionary...")
 sheet = Path(__file__).parent / "assets" / "vdrj.xls"
 wb = xlrd.open_workbook(sheet, encoding_override='utf-8')
+print("Reading dictionary...")
 df = pd.read_excel(sheet, sheet_name="list", usecols="C", dtype = object)
 df2 = pd.read_excel(sheet, sheet_name="list", usecols="A", dtype = object)
 wordlist = df.values.tolist()
@@ -33,13 +35,35 @@ def err1():     #Error that displays if user enters invalid characters
 
 def kensakustart():     #Displays search onscreen and adds results field
     origsearch = kanahara.get()
-    searchtoiu = tk.Label(font=font,text=f"検索は：{origsearch}")
-    searchtoiu.grid(row=3, column=2, sticky="ew", padx=1, pady=1)
+    searchtoiu = tk.Label(font=font,text=f"検索は：{origsearch}", anchor="center")
+    searchtoiu.grid(row=3, column=1, sticky="ew", padx=1, pady=1)
     search = jv.hira2kata(origsearch)
     winlist = henkan(search)
-    print(winlist)
-    kekkahara = tk.Label(text=f"{winlist}")
-    kekkahara.grid(row=4, column=2, sticky="ew", padx=1, pady=1)
+    kekkahara.delete('1.0', tk.END)
+    for x in winlist:
+        print(x)
+        kekkahara.tag_configure("center", justify="center")
+        kekkahara.tag_add('center', '1.0', tk.END)
+        kekkahara.insert(tk.END, f"{x} \n")
+
+def albyfunction(rhymelist):
+    if len(rhymelist) == 0:
+        rhymelist.append(3)
+    elif rhymelist[-1] == 1:
+        rhymelist.pop()
+        rhymelist.append("13")
+    elif rhymelist[-1] == 2:
+        rhymelist.pop()
+        rhymelist.append("23")
+    elif rhymelist[-1] == 3:
+        rhymelist.pop()
+        rhymelist.append("33")
+    elif rhymelist[-1] == 5:
+        rhymelist.pop()
+        rhymelist.append("55")
+    else:
+        rhymelist.append(3)
+
 
     
 def rhymeprocess(word: str):    #Converts given string to numbers for comparison
@@ -167,26 +191,31 @@ def henkan(word: str):        #Compares search to dictionary
         err1()
         return
     print(rhymelist)
+    winlist = []
+    winfuri = []
     for z in range(len(wordnums)):
-        winlist = ("")
         compare = wordnums[z]
         if len(rhymelist) <= len(compare):
             if rhymelist == compare[0-(len(rhymelist)):]:
                 goodword = kanlist[z]
+                winlist.append(goodword[0])
                 goodfuri = wordlist[z]
-                print(goodfuri[0])
-                print(goodword[0])
+                winfuri.append(goodfuri[0])
+                #print(goodfuri[0])
+                #print(goodword[0])
     return winlist
 
 
 
 wordnums = []
 wordwords = []
+print("Processing dictionary...")
 for y in wordlist:
     for x in y:
         dictionary = rhymeprocess(x)
         wordnums.append(dictionary)
 
+print("Adding kanji...")
 for y in kanlist:
     for x in y:
         wordwords.append(x)
@@ -196,8 +225,9 @@ window.geometry("800x600")
 writekana = tk.Label(font=font,text="カナ文字で言葉を書いてください！")
 kanahara = tk.Entry(window)
 botan = tk.Button(text="検索", command=kensakustart)
-
-writekana.grid(row=1, column=1, sticky="e", padx=5, pady=5)
-kanahara.grid(row=2, column=1, sticky="e", padx=5, pady=5)
-botan.grid(row=2, column=2, sticky="e", padx=5, pady=5)
+kekkahara = tk.Text(window)
+writekana.grid(row=1, column=1, sticky="nesw", padx=5, pady=5)
+kanahara.grid(row=2, column=1, sticky="nesw", padx=5, pady=5)
+botan.grid(row=2, column=2, sticky="nesw", padx=5, pady=5)
+kekkahara.grid(row=4, column=1, sticky="nesw", padx=30, pady=30)
 window.mainloop()
