@@ -1,4 +1,5 @@
 ﻿import tkinter as tk
+from tkinter.filedialog import asksaveasfilename
 import tkextrafont as tkfont
 import jaconv as jv
 import pandas as pd
@@ -11,6 +12,8 @@ urhyme = ["ウ", "ク", "グ", "ク゚","ス", "ズ", "ツ", "ヅ", "ツ゚", "�
 erhyme = ["エ", "ケ", "ゲ","セ", "ゼ", "テ", "デ", "ネ", "ヘ", "ベ", "ペ", "メ", "レ", "イェ", "フェ", "シェ", "チェ", "シュ", "ヱ", "ヹ", "ウェ", "ヴェ"]
 orhyme = ["オ", "コ", "ゴ","ソ", "ゾ", "ト", "ド", "ノ", "ホ", "ボ", "ポ", "モ", "ロ", "ヨ", "ヲ", "ヺ", "ショ", "チョ", "フォ", "ヴォ"]
 n = ["ン"]
+other = ["ャ","ァ","ィ","ュ","ゥ","ㇷ゚","ㇷ","ェ","ョ","ォ","ー","ッ"]
+allvalid = arhyme + irhyme + urhyme + erhyme + orhyme + n + other
 
 print("Opening dictionary...")
 sheet = Path(__file__).parent / "assets" / "vdrj.xls"
@@ -39,12 +42,10 @@ def kensakustart():     #Displays search onscreen and adds results field
     searchtoiu.grid(row=3, column=1, sticky="ew", padx=1, pady=1)
     search = jv.hira2kata(origsearch)
     winlist = henkan(search)
-    kekkahara.delete('1.0', tk.END)
+    kekkahara.delete(0, tk.END)
     for x in winlist:
-        print(x)
-        kekkahara.tag_configure("center", justify="center")
-        kekkahara.tag_add('center', '1.0', tk.END)
-        kekkahara.insert(tk.END, f"{x} \n")
+        kekkahara.insert(tk.END, x)
+        kekkahara.config(justify="center")
 
 def albyfunction(rhymelist):
     if len(rhymelist) == 0:
@@ -183,9 +184,14 @@ def rhymeprocess(word: str):    #Converts given string to numbers for comparison
                     rhymelist.append("55")
             if x == "ッ":
                 pass
+        if x not in allvalid:
+            err1()
+            print(f"Error! {x} is invalid!")
+            return ["Error"]
     return(rhymelist)
 
 def henkan(word: str):        #Compares search to dictionary
+    ping=0
     rhymelist = rhymeprocess(word)
     if  0 in rhymelist:
         err1()
@@ -203,6 +209,8 @@ def henkan(word: str):        #Compares search to dictionary
                 winfuri.append(goodfuri[0])
                 #print(goodfuri[0])
                 #print(goodword[0])
+    if not dictionaries:
+        print(f"{len(winlist)} results found!")
     return winlist
 
 
@@ -210,6 +218,7 @@ def henkan(word: str):        #Compares search to dictionary
 wordnums = []
 wordwords = []
 print("Processing dictionary...")
+dictionaries = True
 for y in wordlist:
     for x in y:
         dictionary = rhymeprocess(x)
@@ -220,12 +229,12 @@ for y in kanlist:
     for x in y:
         wordwords.append(x)
         
-
+dictionaries = False
 window.geometry("800x600")
 writekana = tk.Label(font=font,text="カナ文字で言葉を書いてください！")
 kanahara = tk.Entry(window)
 botan = tk.Button(text="検索", command=kensakustart)
-kekkahara = tk.Text(window)
+kekkahara = tk.Listbox(window)
 writekana.grid(row=1, column=1, sticky="nesw", padx=5, pady=5)
 kanahara.grid(row=2, column=1, sticky="nesw", padx=5, pady=5)
 botan.grid(row=2, column=2, sticky="nesw", padx=5, pady=5)
