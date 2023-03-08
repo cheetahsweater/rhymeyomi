@@ -11,7 +11,7 @@ RhymeYomi, named after a term used in the Japanese rap battle scene to refer to 
 
 ## Installation
 
-I would like to create an installer for RhymeYomi very soon, but for now, it is simply a zip file to be downloaded from the "releases" section. After downloading, the zip file, extract it and run the rhymeyomi.exe file, and it should operate normally.
+I would like to create an installer for RhymeYomi very soon, but for now, it is simply a .zip file to be downloaded from the "releases" section. After downloading the .zip file, extract it. There are going to be a *lot* of files in the main directory, but just ignore these and look for rhymeyomi.exe. Run it, and it should work smoothly.
     
 ## Usage
 
