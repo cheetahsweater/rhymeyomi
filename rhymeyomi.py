@@ -4,6 +4,7 @@ import jaconv as jv
 import pandas as pd
 import xlrd
 from pathlib import Path
+from PIL import ImageTk,Image 
 import tkinter.ttk as ttk
 
 arhyme = ["ア", "カ", "ガ", "カ゚", "ラ゚", "サ", "ザ", "ハ", "バ", "パ", "ラ", "ラ゚", "ワ", "マ", "ナ", "タ", "ダ", "ヤ", "チャ", "ファ", "ヴァ"]
@@ -243,9 +244,12 @@ style = ttk.Style()
 style.configure('Treeview', font=font)
 headerstyle = ttk.Style()
 headerstyle.configure('Treeview.Heading', font=('TkDefaultFont', 13))
-creds = tk.Label(font=font,text="RhymeYomi created by Ana-Luisa Aikman. RY ALPHA 0.0.2 - 2023.03.08")
 please = tk.Label(font=('TkDefaultFont', 10), text="Please open an issue on the GitHub page if there's any problems!")
-ty = tk.Label(font=('TkDefaultFont', 10), text="Thank you for downloading RhymeYomi: Always free, always open source. Love you!")
+logopic = Image.open(Path(__file__).parent / "assets" / "logo" / "logocrop.png")
+resizelogo = logopic.resize((logopic.size[0] // 10, logopic.size[1] // 10))
+resizephoto = ImageTk.PhotoImage(resizelogo)
+logo = tk.Label(window, image=resizephoto)
+creds = tk.Label(font=('TkDefaultFont', 10), text="RhymeYomi created by Ana-Luisa Aikman. RY ALPHA 0.0.2 - 2023.03.08")
 kekkahara = ttk.Treeview(window, columns=('kanji', 'furigana'), height=4)
 kekkahara.column('#1', width=150, minwidth=150, stretch=tk.YES)
 kekkahara.column('#2', width=150, minwidth=150, stretch=tk.YES)
@@ -258,10 +262,11 @@ kanahara.grid(row=3, column=1, sticky="nesw", padx=5, pady=5)
 botan.grid(row=3, column=2, sticky="nesw", padx=5, pady=5)
 kekkahara.grid(row=5, column=1, columnspan=2, sticky="nsew", padx=5, pady=5)
 creds.grid(row=6, column=1, sticky="nesw", padx=5, pady=5)
-ty.grid(row=7, column=1, sticky="nesw", padx=5, pady=5)
+logo.grid(row=7, column=1, sticky="nesw", padx=5, pady=5)
 window.columnconfigure(1, weight=1)
 window.rowconfigure(2, weight=1)
 window.rowconfigure(3, weight=0)
 window.rowconfigure(5, weight=5)
 window.rowconfigure(6, weight=1)
+window.rowconfigure(7, weight=0)
 window.mainloop()

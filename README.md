@@ -28,7 +28,11 @@ The word database currently being used, as of RhymeYomi Alpha 0.0.1, is the Voca
 
 There are lyrical examples in the assets folder compiled manually, but they are not functional yet, so they will not be elaborated on in the readme yet.
 
-Huge special thanks to Takumi Saito for giving me the inspiration to write Japanese rap for the first time after years of only listening and producing it. I wouldn't have ever needed to use a program like this if it weren't for his help, and I probably wouldn't have learned half as much about Python if I hadn't made this project. 
+The font being used in the UI is UD-Digi Kyokasho, which can be downloaded [here](https://eng.m.fontke.com/font/24526460/download/).
+
+The logo was created by my friend (genius) [kobeysucks](https://www.instagram.com/kobeysucks/), thank you so much for such a cool logo.
+
+Huge special thanks to Takumi Saito/[Flo4ttt](https://soundcloud.com/flo4ttt) for giving me the inspiration to write Japanese rap for the first time after years of only listening and producing it. I wouldn't have ever needed to use a program like this if it weren't for his help, and I probably wouldn't have learned half as much about Python if I hadn't made this project. 
 
 Also big special thanks to my friend [Nodrance](https://github.com/Nodrance) and my father [gaikman2015](https://github.com/gaikman2015) for looking over my code and helping me when I needed some assistance. Thank you as well to my best friend [theteamaker](https://github.com/theteamaker) for not only looking at my code, but being extremely encouraging and letting me know (in a way that frankly made me emotional) how proud she is of the progress I've made learning Python this year. 
 
