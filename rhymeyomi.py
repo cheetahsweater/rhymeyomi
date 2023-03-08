@@ -1,10 +1,10 @@
 ﻿import tkinter as tk
-from tkinter.filedialog import asksaveasfilename
 import tkextrafont as tkfont
 import jaconv as jv
 import pandas as pd
 import xlrd
 from pathlib import Path
+import tkinter.ttk as ttk
 
 arhyme = ["ア", "カ", "ガ", "カ゚", "ラ゚", "サ", "ザ", "ハ", "バ", "パ", "ラ", "ラ゚", "ワ", "マ", "ナ", "タ", "ダ", "ヤ", "チャ", "ファ", "ヴァ"]
 irhyme = ["イ", "キ", "ギ", "キ゚", "シ", "ジ", "チ", "ヂ", "ニ", "ヒ", "ビ", "ピ", "ミ", "リ", "ヰ", "ヸ", "フィ", "ディ", "ウィ", "ティ", "ヴぃ"]
@@ -15,19 +15,11 @@ n = ["ン"]
 other = ["ャ","ァ","ィ","ュ","ゥ","ㇷ゚","ㇷ","ェ","ョ","ォ","ー","ッ"]
 allvalid = arhyme + irhyme + urhyme + erhyme + orhyme + n + other
 
-print("Opening dictionary...")
-sheet = Path(__file__).parent / "assets" / "vdrj.xls"
-wb = xlrd.open_workbook(sheet, encoding_override='utf-8')
-print("Reading dictionary...")
-df = pd.read_excel(sheet, sheet_name="list", usecols="C", dtype = object)
-df2 = pd.read_excel(sheet, sheet_name="list", usecols="A", dtype = object)
-wordlist = df.values.tolist()
-kanlist = df2.values.tolist()
 
-window = tk.Tk()
-window.title("ライム読み ALPHA")
-font = tkfont.Font(file="font\digi.ttf", family="UD Digi Kyokasho N-R")
-results = ()
+
+def updatelabel(label, message):
+    label.config(text=message)
+    window.update()
 
 def err1():     #Error that displays if user enters invalid characters
     error1 = tk.Toplevel(window)
@@ -41,11 +33,10 @@ def kensakustart():     #Displays search onscreen and adds results field
     searchtoiu = tk.Label(font=font,text=f"検索は：{origsearch}", anchor="center")
     searchtoiu.grid(row=3, column=1, sticky="ew", padx=1, pady=1)
     search = jv.hira2kata(origsearch)
-    winlist = henkan(search)
-    kekkahara.delete(0, tk.END)
-    for x in winlist:
-        kekkahara.insert(tk.END, x)
-        kekkahara.config(justify="center")
+    winlist, winfuri = henkan(search)
+    kekkahara.delete(*kekkahara.get_children())
+    for x, y in zip(winlist, winfuri):
+            kekkahara.insert('', 'end', values=(x, y))
 
 def albyfunction(rhymelist):
     if len(rhymelist) == 0:
@@ -187,7 +178,7 @@ def rhymeprocess(word: str):    #Converts given string to numbers for comparison
         if x not in allvalid:
             err1()
             print(f"Error! {x} is invalid!")
-            return ["Error"]
+            return(["Error"])
     return(rhymelist)
 
 def henkan(word: str):        #Compares search to dictionary
@@ -211,32 +202,64 @@ def henkan(word: str):        #Compares search to dictionary
                 #print(goodword[0])
     if not dictionaries:
         print(f"{len(winlist)} results found!")
-    return winlist
+    return winlist, winfuri
+    
 
 
 
-wordnums = []
-wordwords = []
-print("Processing dictionary...")
-dictionaries = True
-for y in wordlist:
-    for x in y:
-        dictionary = rhymeprocess(x)
-        wordnums.append(dictionary)
 
-print("Adding kanji...")
-for y in kanlist:
-    for x in y:
-        wordwords.append(x)
+if __name__ == "__main__":
+    window = tk.Tk()
+    window.title("ライム読み ALPHA")
+    font = tkfont.Font(file="font\digi.ttf", family="UD Digi Kyokasho N-R")
+    results = ()
+    print("Opening dictionary...")
+    sheet = Path(__file__).parent / "assets" / "vdrj.xls"
+    wb = xlrd.open_workbook(sheet, encoding_override='utf-8')
+    print("Reading dictionary...")
+    df = pd.read_excel(sheet, sheet_name="list", usecols="C", dtype = object)
+    df2 = pd.read_excel(sheet, sheet_name="list", usecols="A", dtype = object)
+    wordlist = df.values.tolist()
+    kanlist = df2.values.tolist()
+    wordnums = []
+    wordwords = []
+    print("Processing dictionary...")
+    dictionaries = True
+    for y in wordlist:
+        for x in y:
+            dictionary = rhymeprocess(x)
+            wordnums.append(dictionary)
+    print("Adding kanji...")
+    for y in kanlist:
+        for x in y:
+            wordwords.append(x)
         
 dictionaries = False
 window.geometry("800x600")
 writekana = tk.Label(font=font,text="カナ文字で言葉を書いてください！")
 kanahara = tk.Entry(window)
 botan = tk.Button(text="検索", command=kensakustart)
-kekkahara = tk.Listbox(window)
+style = ttk.Style()
+style.configure('Treeview', font=font)
+headerstyle = ttk.Style()
+headerstyle.configure('Treeview.Heading', font=('TkDefaultFont', 13))
+creds = tk.Label(font=font,text="RhymeYomi created by Ana-Luisa Aikman. RY ALPHA 0.0 - 2023.03.08")
+ty = tk.Label(font=('TkDefaultFont', 10), text="Thank you for downloading RhymeYomi: Always free, always open source. Love you!")
+kekkahara = ttk.Treeview(window, columns=('kanji', 'furigana'), height=4)
+kekkahara.column('#1', width=150, minwidth=150, stretch=tk.YES)
+kekkahara.column('#2', width=150, minwidth=150, stretch=tk.YES)
+kekkahara.config(show='headings')
+kekkahara.heading('#1', text='漢字')
+kekkahara.heading('#2', text='フリガナ')
 writekana.grid(row=1, column=1, sticky="nesw", padx=5, pady=5)
 kanahara.grid(row=2, column=1, sticky="nesw", padx=5, pady=5)
 botan.grid(row=2, column=2, sticky="nesw", padx=5, pady=5)
-kekkahara.grid(row=4, column=1, sticky="nesw", padx=30, pady=30)
+kekkahara.grid(row=4, column=1, columnspan=2, sticky="nsew", padx=5, pady=5)
+creds.grid(row=5, column=1, sticky="nesw", padx=5, pady=5)
+ty.grid(row=6, column=1, sticky="nesw", padx=5, pady=5)
+window.columnconfigure(1, weight=1)
+window.rowconfigure(1, weight=1)
+window.rowconfigure(2, weight=0)
+window.rowconfigure(4, weight=5)
+window.rowconfigure(5, weight=1)
 window.mainloop()
