@@ -24,7 +24,7 @@ It is *very* important that your search only be in kana, or else it will return 
 
 ## Acknowledgements
 
-The word database currently being used, as of RhymeYomi Alpha 0.0.1, is the Vocab Database created by Matsushita Laboratory for Language Learning, which can be found [here](http://www17408ui.sakura.ne.jp/tatsum/database.html). It contains about 60,000 Japanese (and some English) words, and for the purpose of this program, the two most relevant columns of the main sheet have been extracted and moved to a smaller sheet, which is used as the program's dictionary.
+The word database currently being used, as of RhymeYomi Alpha 0.0.3, is the Vocab Database created by Matsushita Laboratory for Language Learning, which can be found [here](http://www17408ui.sakura.ne.jp/tatsum/database.html). It contains about 60,000 Japanese (and some English) words, and for the purpose of this program, the two most relevant columns of the main sheet have been extracted and moved to a smaller sheet, which is used as the program's dictionary.
 
 There are lyrical examples in the assets folder compiled manually, but they are not functional yet, so they will not be elaborated on in the readme yet.
 
