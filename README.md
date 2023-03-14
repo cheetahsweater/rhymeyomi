@@ -21,6 +21,8 @@ After you have entered your search, click the button next to the search bar and 
 
 It is *very* important that your search only be in kana, or else it will return an error by default, because the program is not made to handle input besides kana. The reason the application is set up this way is because kanji has different readings depending on context, and it would be not only extremely time-consuming to account for every reading of every individual kanji, but it would even still fail to consider words that are newly created/made-up, or uncommon names that are read differently from words.
 
+## Error Guide
+001 - You are feeding the program invalid characters. All kana, even obsoleted characters, are accounted for in RhymeYomi's character dictionary. If you are using obsoleted hiragana, try typing your query in katakana instead. 
 
 ## Acknowledgements
 
