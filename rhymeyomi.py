@@ -7,6 +7,8 @@ from pathlib import Path
 from PIL import ImageTk,Image 
 import tkinter.ttk as ttk
 
+#Note to self: ALWAYS UPDATE THE VERSION NUMBER
+
 arhyme = ["ア", "カ", "ガ", "カ゚", "ラ゚", "サ", "ザ", "ハ", "バ", "パ", "ラ", "ラ゚", "ワ", "マ", "ナ", "タ", "ダ", "ヤ", "チャ", "ファ", "ヴァ"]
 irhyme = ["イ", "キ", "ギ", "キ゚", "シ", "ジ", "チ", "ヂ", "ニ", "ヒ", "ビ", "ピ", "ミ", "リ", "ヰ", "ヸ", "フィ", "ディ", "ウィ", "ティ", "ヴぃ"]
 urhyme = ["ウ", "ク", "グ", "ク゚","ス", "ズ", "ツ", "ヅ", "ツ゚", "ヌ", "フ", "ブ", "プ", "ム", "ル", "ユ", "キュ", "チュ", "ヴ", "シュ", "リュ"]
@@ -254,7 +256,7 @@ logopic = Image.open(Path(__file__).parent / "assets" / "logo" / "logocrop.png")
 resizelogo = logopic.resize((logopic.size[0] // 10, logopic.size[1] // 10))
 resizephoto = ImageTk.PhotoImage(resizelogo)
 logo = tk.Label(window, image=resizephoto)
-creds = tk.Label(font=('TkDefaultFont', 10), text="RhymeYomi created by Ana-Luisa Aikman. RY ALPHA 0.0.3 - 2023.03.08")
+creds = tk.Label(font=('TkDefaultFont', 10), text="RhymeYomi created by Ana-Luisa Aikman. RY ALPHA 0.0.4 - 2023.03.14")
 kekkahara = ttk.Treeview(window, columns=('kanji', 'furigana'), height=4)
 kekkahara.column('#1', width=150, minwidth=150, stretch=tk.YES)
 kekkahara.column('#2', width=150, minwidth=150, stretch=tk.YES)
