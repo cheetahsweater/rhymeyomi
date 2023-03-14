@@ -15,6 +15,9 @@ orhyme = ["オ", "コ", "ゴ","ソ", "ゾ", "ト", "ド", "ノ", "ホ", "ボ", "
 n = ["ン"]
 other = ["ャ","ァ","ィ","ュ","ゥ","ㇷ゚","ㇷ","ェ","ョ","ォ","ー","ッ"]
 allvalid = arhyme + irhyme + urhyme + erhyme + orhyme + n + other
+errlist = {
+"001":"エラーが発生した！\n検索に一つ以上の文字は無効だ！(001)"
+}
 
 
 
@@ -22,11 +25,11 @@ def updatelabel(label, message):
     label.config(text=message)
     window.update()
 
-def err1():     #Error that displays if user enters invalid characters
-    error1 = tk.Toplevel(window)
-    error1.geometry("350x75")
-    error1.title("Error!")
-    hermes1 = tk.Label(error1, text = "エラーが発生した！\n検索に一つ以上の文字は無効だ！", font=font)
+def err(code):     #Error that displays if user enters invalid characters
+    error = tk.Toplevel(window)
+    error.geometry("350x75")
+    error.title("Error!")
+    hermes1 = tk.Label(error, text = errlist[code], font=font)
     hermes1.pack()
 
 def kensakustart():     #Displays search onscreen and adds results field
@@ -177,7 +180,7 @@ def rhymeprocess(word: str):    #Converts given string to numbers for comparison
             if x == "ッ":
                 pass
         if x not in allvalid:
-            err1()
+            err("001")
             print(f"Error! {x} is invalid!")
             return(["Error"])
     return(rhymelist)
@@ -186,7 +189,7 @@ def henkan(word: str):        #Compares search to dictionary
     ping=0
     rhymelist = rhymeprocess(word)
     if  0 in rhymelist:
-        err1()
+        err("001")
         return
     print(rhymelist)
     winlist = []
@@ -229,6 +232,8 @@ if __name__ == "__main__":
     for y in wordlist:
         for x in y:
             dictionary = rhymeprocess(x)
+            if x == "Error":
+                err("001")
             wordnums.append(dictionary)
     print("Adding kanji...")
     for y in kanlist:
