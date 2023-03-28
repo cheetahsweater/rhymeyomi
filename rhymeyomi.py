@@ -18,7 +18,8 @@ n = ["ン"]
 other = ["ャ","ァ","ィ","ュ","ゥ","ㇷ゚","ㇷ","ェ","ョ","ォ","ー","ッ"]
 allvalid = arhyme + irhyme + urhyme + erhyme + orhyme + n + other
 errlist = {
-"001":"エラーが発生した！\n検索に一つ以上の文字は無効だ！(001)"
+"001":"エラーが発生した！\n検索で一つ以上の文字は無効だ！(001)",
+"002":"エラーが発生した！\n辞書で一つ以上の文字は無効だ！GitHubでIssueを作ってください！(002)"
 }
 
 
@@ -235,7 +236,7 @@ if __name__ == "__main__":
         for x in y:
             dictionary = rhymeprocess(x)
             if x == "Error":
-                err("001")
+                err("002")
             wordnums.append(dictionary)
     print("Adding kanji...")
     for y in kanlist:
@@ -256,7 +257,7 @@ logopic = Image.open(Path(__file__).parent / "assets" / "logo" / "logocrop.png")
 resizelogo = logopic.resize((logopic.size[0] // 10, logopic.size[1] // 10))
 resizephoto = ImageTk.PhotoImage(resizelogo)
 logo = tk.Label(window, image=resizephoto)
-creds = tk.Label(font=('TkDefaultFont', 10), text="RhymeYomi created by Ana-Luisa Aikman. RY ALPHA 0.0.4 - 2023.03.14")
+creds = tk.Label(font=('TkDefaultFont', 10), text="RhymeYomi created by Ana-Luisa Aikman. RY ALPHA 0.0.5 - 2023.03.27")
 kekkahara = ttk.Treeview(window, columns=('kanji', 'furigana'), height=4)
 kekkahara.column('#1', width=150, minwidth=150, stretch=tk.YES)
 kekkahara.column('#2', width=150, minwidth=150, stretch=tk.YES)
