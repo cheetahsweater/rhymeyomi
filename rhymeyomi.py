@@ -9,6 +9,7 @@ import tkinter.ttk as ttk
 
 #Note to self: ALWAYS UPDATE THE VERSION NUMBER
 
+#Lists of all katakana sorted by vowel
 arhyme = ["ア", "カ", "ガ", "カ゚", "ラ゚", "サ", "ザ", "ハ", "バ", "パ", "ラ", "ラ゚", "ワ", "マ", "ナ", "タ", "ダ", "ヤ", "チャ", "ファ", "ヴァ"]
 irhyme = ["イ", "キ", "ギ", "キ゚", "シ", "ジ", "チ", "ヂ", "ニ", "ヒ", "ビ", "ピ", "ミ", "リ", "ヰ", "ヸ", "フィ", "ディ", "ウィ", "ティ", "ヴぃ"]
 urhyme = ["ウ", "ク", "グ", "ク゚","ス", "ズ", "ツ", "ヅ", "ツ゚", "ヌ", "フ", "ブ", "プ", "ム", "ル", "ユ", "キュ", "チュ", "ヴ", "シュ", "リュ"]
@@ -17,14 +18,16 @@ orhyme = ["オ", "コ", "ゴ","ソ", "ゾ", "ト", "ド", "ノ", "ホ", "ボ", "
 n = ["ン"]
 other = ["ャ","ァ","ィ","ュ","ゥ","ㇷ゚","ㇷ","ェ","ョ","ォ","ー","ッ"]
 allvalid = arhyme + irhyme + urhyme + erhyme + orhyme + n + other
+
+#List of errors
 errlist = {
-"001":"エラーが発生した！\n検索で一つ以上の文字は無効だ！(001)",
-"002":"エラーが発生した！\n辞書で一つ以上の文字は無効だ！GitHubでIssueを作ってください！(002)"
+"001":"エラーが発生した！\n検索で一つ以上の文字は無効だ！(001)", #Invalid characters in search
+"002":"エラーが発生した！\n辞書で一つ以上の文字は無効だ！GitHubでIssueを作ってください！(002)" #Invalid characters in dictonary (very problematic)
 }
 
 
 
-def updatelabel(label, message):
+def updatelabel(label, message): #Function to change label text
     label.config(text=message)
     window.update()
 
@@ -35,7 +38,7 @@ def err(code):     #Error that displays if user enters invalid characters
     hermes1 = tk.Label(error, text = errlist[code], font=font)
     hermes1.pack()
 
-def kensakustart():     #Displays search onscreen and adds results field
+def kensakustart():    #Displays search onscreen and adds results field
     origsearch = kanahara.get()
     searchtoiu = tk.Label(font=font,text=f"検索は：{origsearch}", anchor="center")
     searchtoiu.grid(row=4, column=1, sticky="ew", padx=1, pady=1)
@@ -45,27 +48,8 @@ def kensakustart():     #Displays search onscreen and adds results field
     for x, y in zip(winlist, winfuri):
             kekkahara.insert('', 'end', values=(x, y))
 
-def albyfunction(rhymelist):
-    if len(rhymelist) == 0:
-        rhymelist.append(3)
-    elif rhymelist[-1] == 1:
-        rhymelist.pop()
-        rhymelist.append("13")
-    elif rhymelist[-1] == 2:
-        rhymelist.pop()
-        rhymelist.append("23")
-    elif rhymelist[-1] == 3:
-        rhymelist.pop()
-        rhymelist.append("33")
-    elif rhymelist[-1] == 5:
-        rhymelist.pop()
-        rhymelist.append("55")
-    else:
-        rhymelist.append(3)
 
-
-    
-def rhymeprocess(word: str):    #Converts given string to numbers for comparison
+def rhymeprocess(word: str):    #Converts given string to numbers based on vowels for comparison
     searchlist = word[::1]
     rhymelist = []
     for x in searchlist:
@@ -189,7 +173,6 @@ def rhymeprocess(word: str):    #Converts given string to numbers for comparison
     return(rhymelist)
 
 def henkan(word: str):        #Compares search to dictionary
-    ping=0
     rhymelist = rhymeprocess(word)
     if  0 in rhymelist:
         err("001")
@@ -242,7 +225,8 @@ if __name__ == "__main__":
     for y in kanlist:
         for x in y:
             wordwords.append(x)
-        
+
+#Insanely disorganized UI setup        
 dictionaries = False
 window.geometry("800x600")
 writekana = tk.Label(font=font,text="カナ文字で言葉を書いてください！")
