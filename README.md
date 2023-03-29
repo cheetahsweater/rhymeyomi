@@ -23,10 +23,11 @@ It is *very* important that your search only be in kana, or else it will return 
 
 ## Error Guide
 001 - You are feeding the program invalid characters. All kana, even obsoleted characters, are accounted for in RhymeYomi's character dictionary. If you are using obsoleted hiragana, try typing your query in katakana instead. 
+002 - The dictionary has invalid characters in it. Please open an issue on GitHub if this happens, as it should not under any circumstances.
 
 ## Acknowledgements
 
-The word database currently being used, as of RhymeYomi Alpha 0.0.3, is the Vocab Database created by Matsushita Laboratory for Language Learning, which can be found [here](http://www17408ui.sakura.ne.jp/tatsum/database.html). It contains about 60,000 Japanese (and some English) words, and for the purpose of this program, the two most relevant columns of the main sheet have been extracted and moved to a smaller sheet, which is used as the program's dictionary.
+The word database currently being used, as of RhymeYomi Alpha 0.0.6, is the Vocab Database created by Matsushita Laboratory for Language Learning, which can be found [here](http://www17408ui.sakura.ne.jp/tatsum/database.html). It contains about 60,000 Japanese (and some English) words, and for the purpose of this program, the two most relevant columns of the main sheet have been extracted and moved to a smaller sheet, which is used as the program's dictionary.
 
 There are lyrical examples in the assets folder compiled manually, but they are not functional yet, so they will not be elaborated on in the readme yet.
 

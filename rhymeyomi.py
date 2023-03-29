@@ -84,7 +84,7 @@ class RhymeYomi:
         self.resizelogo = self.logopic.resize((self.logopic.size[0] // 10, self.logopic.size[1] // 10))
         self.resizephoto = ImageTk.PhotoImage(self.resizelogo)
         self.logo = tk.Label(self.window, image=self.resizephoto)
-        self.creds = tk.Label(font=('TkDefaultFont', 10), text="RhymeYomi created by Ana-Luisa Aikman. RY ALPHA 0.0.5 - 2023.03.27")
+        self.creds = tk.Label(font=('TkDefaultFont', 10), text="RhymeYomi created by Ana-Luisa Aikman. RY ALPHA 0.0.6 - 2023.03.29")
 
         #Results treeview
         self.kekkahara = ttk.Treeview(self.window, columns=('kanji', 'furigana'), height=4)
