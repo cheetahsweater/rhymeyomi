@@ -60,6 +60,11 @@ class RhymeYomi:
             for x in y:
                 self.wordwords.append(x)
         self.dictionaries = False
+
+    def poppend(self,thelist,thenum):
+        thelist.pop()
+        thelist.append(thenum)
+
     def create_ui(self):
         self.window.geometry("800x600")
 
@@ -84,7 +89,8 @@ class RhymeYomi:
         self.resizelogo = self.logopic.resize((self.logopic.size[0] // 10, self.logopic.size[1] // 10))
         self.resizephoto = ImageTk.PhotoImage(self.resizelogo)
         self.logo = tk.Label(self.window, image=self.resizephoto)
-        self.creds = tk.Label(font=('TkDefaultFont', 10), text="RhymeYomi created by Ana-Luisa Aikman. RY ALPHA 0.0.6 - 2023.03.29")
+        #Version number
+        self.creds = tk.Label(font=('TkDefaultFont', 10), text="RhymeYomi created by Ana-Luisa Aikman. RY ALPHA 0.0.7 - 2023.04.01")
 
         #Results treeview
         self.kekkahara = ttk.Treeview(self.window, columns=('kanji', 'furigana'), height=4)
@@ -94,7 +100,7 @@ class RhymeYomi:
         self.kekkahara.heading('#1', text='漢字')
         self.kekkahara.heading('#2', text='フリガナ')
 
-        #UI setup
+        #UI grid placement
         self.please.grid(row=1, column=1, sticky="nesw", padx=5, pady=5)
         self.writekana.grid(row=2, column=1, sticky="nesw", padx=5, pady=5)
         self.kanahara.grid(row=3, column=1, sticky="nesw", padx=5, pady=5)
@@ -139,67 +145,53 @@ class RhymeYomi:
                 if len(rhymelist) == 0:
                     rhymelist.append(1)
                 elif rhymelist[-1] == 1:
-                    rhymelist.pop()
-                    rhymelist.append("11")
+                    self.poppend(rhymelist,"11")
                 elif rhymelist[-1] == 4:
-                    rhymelist.pop()
-                    rhymelist.append("41")
+                    self.poppend(rhymelist,"41")
                 else:
                     rhymelist.append(1)
             elif x == "イ":
                 if len(rhymelist) == 0:
                     rhymelist.append(2)
                 elif rhymelist[-1] == 1:
-                    rhymelist.pop()
-                    rhymelist.append("12")
+                    self.poppend(rhymelist,"12")
                 elif rhymelist[-1] == 2:
-                    rhymelist.pop()
-                    rhymelist.append("22")
+                    self.poppend(rhymelist,"22")
                 elif rhymelist[-1] == 4:
-                    rhymelist.pop()
-                    rhymelist.append("42")
+                    self.poppend(rhymelist,"42")
                 elif rhymelist[-1] == 5:
-                    rhymelist.pop()
-                    rhymelist.append("52")
+                    self.poppend(rhymelist,"52")
                 else:
                     rhymelist.append(2)
             elif x == "ウ":
                 if len(rhymelist) == 0:
                     rhymelist.append(3)
                 elif rhymelist[-1] == 1:
-                    rhymelist.pop()
-                    rhymelist.append("13")
+                    self.poppend(rhymelist,"13")
                 elif rhymelist[-1] == 2:
-                    rhymelist.pop()
-                    rhymelist.append("23")
+                    self.poppend(rhymelist,"23")
                 elif rhymelist[-1] == 3:
-                    rhymelist.pop()
-                    rhymelist.append("33")
+                    self.poppend(rhymelist,"33")
                 elif rhymelist[-1] == 5:
-                    rhymelist.pop()
-                    rhymelist.append("55")
+                    self.poppend(rhymelist,"55")
                 else:
                     rhymelist.append(3)
             elif x == "エ":
                 if len(rhymelist) == 0:
                     rhymelist.append(4)
                 elif rhymelist[-1] == 1:
-                    rhymelist.pop()
-                    rhymelist.append("14")
+                    self.poppend(rhymelist,"14")
                 elif rhymelist[-1] == 4:
-                    rhymelist.pop()
-                    rhymelist.append("44")
+                    self.poppend(rhymelist,"44")
                 else:
                     rhymelist.append(4)
             elif x == "オ":
                 if len(rhymelist) == 0:
                     rhymelist.append(5)
                 elif rhymelist[-1] == 1:
-                    rhymelist.pop()
-                    rhymelist.append("15")
+                    self.poppend(rhymelist,"15")
                 elif rhymelist[-1] == 5:
-                    rhymelist.pop()
-                    rhymelist.append("55")
+                    self.poppend(rhymelist,"55")
                 else:
                     rhymelist.append(5)
             else:
@@ -216,36 +208,26 @@ class RhymeYomi:
                 if x in self.n:
                     rhymelist.append(6)
                 if x == "ャ" or x == "ァ":
-                    rhymelist.pop()
-                    rhymelist.append(1)
+                    self.poppend(rhymelist,1)
                 if x == "ィ":
-                    rhymelist.pop()
-                    rhymelist.append(2)
+                    self.poppend(rhymelist,2)
                 if x == "ュ" or x == "ゥ" or x == "ㇷ゚" or x == "ㇷ":
-                    rhymelist.pop()
-                    rhymelist.append(3)
+                    self.poppend(rhymelist,3)
                 if x == "ェ":
-                    rhymelist.pop()
-                    rhymelist.append(4)
+                    self.poppend(rhymelist,4)
                 if x == "ョ" or x == "ォ":
-                    rhymelist.pop()
-                    rhymelist.append(5)
+                    self.poppend(rhymelist,5)
                 if x == "ー":
                     if rhymelist[-1] == 1:
-                        rhymelist.pop()
-                        rhymelist.append("11")
+                        self.poppend(rhymelist,"11")
                     if rhymelist[-1] == 2:
-                        rhymelist.pop()
-                        rhymelist.append("22")
+                        self.poppend(rhymelist,"22")
                     if rhymelist[-1] == 3:
-                        rhymelist.pop()
-                        rhymelist.append("33")
+                        self.poppend(rhymelist,"33")
                     if rhymelist[-1] == 4:
-                        rhymelist.pop()
-                        rhymelist.append("44")
+                        self.poppend(rhymelist,"44")
                     if rhymelist[-1] == 5:
-                        rhymelist.pop()
-                        rhymelist.append("55")
+                        self.poppend(rhymelist,"55")
                 if x == "ッ":
                     pass
             if x not in self.allvalid:
