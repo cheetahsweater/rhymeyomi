@@ -35,7 +35,7 @@ class RhymeYomi:
         self.create_ui()
         self.window.mainloop()
 
-    def processdict(self):
+    def processdict(self):          #Converts dictionary to number format
         self.dictionaries = True
         print("Opening dictionary...")
         self.sheet = Path(__file__).parent / "assets" / "vdrj.xls"
@@ -61,7 +61,7 @@ class RhymeYomi:
                 self.wordwords.append(x)
         self.dictionaries = False
 
-    def poppend(self,thelist,thenum):
+    def poppend(self,thelist,thenum):     #Pops and appends something to a given list
         thelist.pop()
         thelist.append(thenum)
 
