@@ -20,6 +20,9 @@ class RhymeYomi:
         self.n = ["ン"]
         self.other = ["ャ","ァ","ィ","ュ","ゥ","ㇷ゚","ㇷ","ェ","ョ","ォ","ー","ッ"]
         self.allvalid = self.arhyme + self.irhyme + self.urhyme + self.erhyme + self.orhyme + self.n + self.other
+        self.dictlist = ["dict1.xls", "dict2.xls", "dict3.xls"]
+        self.wordlist = [] 
+        self.kanlist = [] 
 
         #List of errors
         self.errlist = {
@@ -34,17 +37,19 @@ class RhymeYomi:
         self.processdict()
         self.create_ui()
         self.window.mainloop()
+        
 
     def processdict(self):          #Converts dictionary to number format
         self.dictionaries = True
-        print("Opening dictionary...")
-        self.sheet = Path(__file__).parent / "assets" / "vdrj.xls"
-        self.wb = xlrd.open_workbook(self.sheet, encoding_override='utf-8')
-        print("Reading dictionary...")
-        self.df = pd.read_excel(self.sheet, sheet_name="list", usecols="C", dtype = object)
-        self.df2 = pd.read_excel(self.sheet, sheet_name="list", usecols="A", dtype = object)
-        self.wordlist = self.df.values.tolist()
-        self.kanlist = self.df2.values.tolist()
+        for x in self.dictlist:
+            print("Opening dictionary...")
+            self.sheet = Path(__file__).parent / "assets" / x
+            self.wb = xlrd.open_workbook(self.sheet, encoding_override='utf-8')
+            print("Reading dictionary...")
+            self.df = pd.read_excel(self.sheet, sheet_name="list", usecols="C", dtype = object)
+            self.df2 = pd.read_excel(self.sheet, sheet_name="list", usecols="A", dtype = object)
+            self.wordlist.extend(self.df.values.tolist())
+            self.kanlist.extend(self.df2.values.tolist())
         self.wordnums = []
         self.wordwords = []
         print("Processing dictionary...")
@@ -60,6 +65,8 @@ class RhymeYomi:
             for x in y:
                 self.wordwords.append(x)
         self.dictionaries = False
+        print(len(self.wordnums))
+        print(len(self.wordwords))
 
     def poppend(self,thelist,thenum):     #Pops and appends something to a given list
         thelist.pop()
@@ -70,9 +77,11 @@ class RhymeYomi:
 
         #Label that tells the user to enter kana only
         self.writekana = tk.Label(font=self.font,text="カナ文字で言葉を書いてください！")
+        self.syllablenum = tk.Label(font=self.font,text="音節数（オプション）")
 
         #Kana entry field
         self.kanahara = tk.Entry(self.window)
+        self.numberhara = tk.Entry(self.window)
 
         #Search button
         self.botan = tk.Button(text="検索", command=self.search_start)
@@ -103,8 +112,10 @@ class RhymeYomi:
         #UI grid placement
         self.please.grid(row=1, column=1, sticky="nesw", padx=5, pady=5)
         self.writekana.grid(row=2, column=1, sticky="nesw", padx=5, pady=5)
+        self.syllablenum.grid(row=2, column=2, sticky="nesw", padx=5, pady=5)
         self.kanahara.grid(row=3, column=1, sticky="nesw", padx=5, pady=5)
-        self.botan.grid(row=3, column=2, sticky="nesw", padx=5, pady=5)
+        self.numberhara.grid(row=3, column=2, sticky="nesw", padx=5, pady=5)
+        self.botan.grid(row=3, column=3, sticky="nesw", padx=5, pady=5)
         self.kekkahara.grid(row=5, column=1, columnspan=2, sticky="nsew", padx=5, pady=5)
         self.creds.grid(row=6, column=1, sticky="nesw", padx=5, pady=5)
         self.logo.grid(row=7, column=1, sticky="nesw", padx=5, pady=5)
@@ -128,10 +139,14 @@ class RhymeYomi:
 
     def search_start(self):    #Displays search onscreen and adds results field
         origsearch = self.kanahara.get()
+        try:
+            sylnum = int(self.numberhara.get())
+        except ValueError:
+            sylnum = 0
         searchtoiu = tk.Label(font=self.font,text=f"検索は：{origsearch}", anchor="center")
         searchtoiu.grid(row=4, column=1, sticky="ew", padx=1, pady=1)
         search = jv.hira2kata(origsearch)
-        winlist, winfuri = self.search_compare(search)
+        winlist, winfuri = self.search_compare(search, sylnum)
         self.kekkahara.delete(*self.kekkahara.get_children())
         for x, y in zip(winlist, winfuri):
                 self.kekkahara.insert('', 'end', values=(x, y))
@@ -236,7 +251,7 @@ class RhymeYomi:
                 return(["Error"])
         return(rhymelist)
 
-    def search_compare(self, word: str):        #Compares search to dictionary
+    def search_compare(self, word: str, syllables: int):        #Compares search to dictionary
         rhymelist = self.rhyme_process(word)
         if  0 in rhymelist:
             self.err("001")
@@ -244,16 +259,26 @@ class RhymeYomi:
         print(rhymelist)
         winlist = []
         winfuri = []
-        for z in range(len(self.wordnums)):
-            compare = self.wordnums[z]
-            if len(rhymelist) <= len(compare):
-                if rhymelist == compare[0-(len(rhymelist)):]:
-                    goodword = self.kanlist[z]
-                    winlist.append(goodword[0])
-                    goodfuri = self.wordlist[z]
-                    winfuri.append(goodfuri[0])
-                    #print(goodfuri[0])
-                    #print(goodword[0])
+        for z in range(len(self.wordnums)): #wordnums = dictionary words as numbers
+            compare = self.wordnums[z] #loads up word from dictionary to compare
+            if len(rhymelist) <= len(compare): #if the length of the query is less than or equal to the length of the word
+                if syllables != 0: #if a value is given for syllable length
+                    if len(compare) == syllables:
+                        if rhymelist == compare[0-(len(rhymelist)):]: #if the last ___ syllables of the query match the word
+                            goodword = self.kanlist[z]
+                            winlist.append(goodword[0])
+                            goodfuri = self.wordlist[z]
+                            winfuri.append(goodfuri[0])
+                            #print(goodfuri[0])
+                            #print(goodword[0])
+                else:
+                    if rhymelist == compare[0-(len(rhymelist)):]: #if the last ___ syllables of the query match the word
+                            goodword = self.kanlist[z]
+                            winlist.append(goodword[0])
+                            goodfuri = self.wordlist[z]
+                            winfuri.append(goodfuri[0])
+                            #print(goodfuri[0])
+                            #print(goodword[0])
         if not self.dictionaries:
             print(f"{len(winlist)} results found!")
         return winlist, winfuri
