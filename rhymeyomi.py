@@ -99,7 +99,7 @@ class RhymeYomi:
         self.resizephoto = ImageTk.PhotoImage(self.resizelogo)
         self.logo = tk.Label(self.window, image=self.resizephoto)
         #Version number
-        self.creds = tk.Label(font=('TkDefaultFont', 10), text="RhymeYomi created by Ana-Luisa Aikman. RY ALPHA 0.0.7 - 2023.04.01")
+        self.creds = tk.Label(font=('TkDefaultFont', 10), text="RhymeYomi created by Ana Aikman. RY ALPHA 0.0.8 - 2023.05.19")
 
         #Results treeview
         self.kekkahara = ttk.Treeview(self.window, columns=('kanji', 'furigana'), height=4)
@@ -263,7 +263,7 @@ class RhymeYomi:
             compare = self.wordnums[z] #loads up word from dictionary to compare
             if len(rhymelist) <= len(compare): #if the length of the query is less than or equal to the length of the word
                 if syllables != 0: #if a value is given for syllable length
-                    if len(compare) == syllables:
+                    if len(compare) == (syllables-1):
                         if rhymelist == compare[0-(len(rhymelist)):]: #if the last ___ syllables of the query match the word
                             goodword = self.kanlist[z]
                             winlist.append(goodword[0])
