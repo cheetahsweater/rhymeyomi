@@ -8,6 +8,8 @@ from PIL import ImageTk,Image
 import tkinter.ttk as ttk
 
 #Note to self: ALWAYS UPDATE THE VERSION NUMBER
+version = "0.0.9"
+date = "2023.09.10"
 
 class RhymeYomi:
     def __init__(self):
@@ -99,7 +101,7 @@ class RhymeYomi:
         self.resizephoto = ImageTk.PhotoImage(self.resizelogo)
         self.logo = tk.Label(self.window, image=self.resizephoto)
         #Version number
-        self.creds = tk.Label(font=('TkDefaultFont', 10), text="RhymeYomi created by Ana Aikman. RY ALPHA 0.0.8 - 2023.05.19")
+        self.creds = tk.Label(font=('TkDefaultFont', 10), text=f"RhymeYomi created by Ana Aikman. RY ALPHA {version} - {date}")
 
         #Results treeview
         self.kekkahara = ttk.Treeview(self.window, columns=('kanji', 'furigana'), height=4)
