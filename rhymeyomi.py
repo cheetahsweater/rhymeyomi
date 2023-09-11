@@ -140,7 +140,7 @@ class RhymeYomi:
     def search_start(self):    #Displays search onscreen and adds results field
         origsearch = self.kanahara.get()
         try:
-            sylnum = int(self.numberhara.get())
+            sylnum = int(self.numberhara.get())+1
         except ValueError:
             sylnum = 0
         searchtoiu = tk.Label(font=self.font,text=f"検索は：{origsearch}", anchor="center")
